@@ -8,7 +8,8 @@ import logging
 import os
 
 import torch
-from hydra import compose
+import hydra
+from hydra import compose, initialize_config_dir
 from hydra.utils import instantiate
 from omegaconf import OmegaConf
 
@@ -131,7 +132,13 @@ def build_sam2_video_predictor(
     hydra_overrides.extend(hydra_overrides_extra)
 
     # Read config and init model
-    cfg = compose(config_name=config_file, overrides=hydra_overrides)
+    config_dir = kwargs.get("config_dir", "/home/jielei/onevision/projects/onevision/config")
+    if config_dir:
+        hydra.core.global_hydra.GlobalHydra.instance().clear()
+        with initialize_config_dir(config_dir=config_dir):
+            cfg = compose(config_name=config_file, overrides=hydra_overrides_extra)
+    else:    
+        cfg = compose(config_name=config_file, overrides=hydra_overrides)
     OmegaConf.resolve(cfg)
     model = instantiate(cfg.model, _recursive_=True)
     _load_checkpoint(model, ckpt_path)
