@@ -132,7 +132,7 @@ def build_sam2_video_predictor(
     hydra_overrides.extend(hydra_overrides_extra)
 
     # Read config and init model
-    config_dir = kwargs.get("config_dir", "/home/jielei/onevision/projects/onevision/config")
+    config_dir = kwargs.get("config_dir", None)
     if config_dir:
         hydra.core.global_hydra.GlobalHydra.instance().clear()
         with initialize_config_dir(config_dir=config_dir):

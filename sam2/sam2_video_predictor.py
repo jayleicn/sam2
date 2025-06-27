@@ -48,13 +48,16 @@ class SAM2VideoPredictor(SAM2Base):
     ):
         """Initialize an inference state."""
         compute_device = self.device  # device of the model
-        images, video_height, video_width = load_video_frames(
-            video_path_or_load_frames=video_path_or_load_frames,
-            image_size=self.image_size,
-            offload_video_to_cpu=offload_video_to_cpu,
-            async_loading_frames=async_loading_frames,
-            compute_device=compute_device,
-        )
+        if isinstance(video_path_or_load_frames, tuple) and len(video_path_or_load_frames) == 3:
+            images, video_height, video_width = video_path_or_load_frames
+        else:
+            images, video_height, video_width = load_video_frames(
+                video_path_or_load_frames=video_path_or_load_frames,
+                image_size=self.image_size,
+                offload_video_to_cpu=offload_video_to_cpu,
+                async_loading_frames=async_loading_frames,
+                compute_device=compute_device,
+            )
         inference_state = {}
         inference_state["images"] = images
         inference_state["num_frames"] = len(images)
