@@ -201,7 +201,7 @@ def load_video_frames(
             )
         elif is_str and os.path.isdir(video_path):
             return load_video_frames_from_jpg_images(
-                video_path=video_path,
+                video_path_or_load_frames=video_path,
                 image_size=image_size,
                 offload_video_to_cpu=offload_video_to_cpu,
                 img_mean=img_mean,
