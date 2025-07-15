@@ -135,8 +135,8 @@ def build_sam2_video_predictor(
     config_dir = kwargs.get("config_dir", None)
     if config_dir:
         hydra.core.global_hydra.GlobalHydra.instance().clear()
-        with initialize_config_dir(config_dir=config_dir):
-            cfg = compose(config_name=config_file, overrides=hydra_overrides_extra)
+        with initialize_config_dir(config_dir=config_dir, version_base="1.2"):
+            cfg = compose(config_name=config_file, overrides=hydra_overrides)
     else:    
         cfg = compose(config_name=config_file, overrides=hydra_overrides)
     OmegaConf.resolve(cfg)
